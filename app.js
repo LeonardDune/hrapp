@@ -1,4 +1,4 @@
-var express = require('express');
+/*var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -57,4 +57,16 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+module.exports = app; */
+
+var http = require('http');
+
+http.createServer(function (req, res) {
+	var _url;
+	
+	req.method = req.method.toUpperCase();
+	console.log(req.method + ' ' + req.url);
+	res.end('The current time is ' + Date.now())
+}).listen(1337, '127.0.0.1');
+
+console.log('Server running at http://127.0.0.1:1337/');
