@@ -26,6 +26,18 @@ Telefoons moeten op hetzelfde netwerk zitten; bij het starten toont de server he
 Verloop per vraag: ronde-intro → vraag open → antwoorden sluiten (handmatig of als de tijd om is) → beoordelen → antwoord tonen → na de laatste vraag van een ronde de tussenstand → eindstand met podium.
 De quizmaster kan punten handmatig bijstellen (±1) en teams verwijderen.
 
+## Telefoon kan de pagina niet openen
+
+De telefoon moet de laptop via het netwerk kunnen bereiken. Controleer:
+
+1. **Firewall.** Windows vraagt bij de eerste start of Node.js verbindingen mag ontvangen: kies *Toestaan* voor *Privé-netwerken*. Is dat eerder geweigerd: Windows Defender Firewall → *Een app toestaan via Windows Defender Firewall* → Node.js aanvinken voor Privé. macOS: Systeeminstellingen → Netwerk → Firewall → Opties → node toestaan.
+2. **Netwerkprofiel (Windows).** Staat het wifi-netwerk op *Openbaar*, dan blokkeert Windows inkomende verbindingen. Zet het op *Privé*.
+3. **Zelfde netwerk.** Telefoon niet op 4G/5G en niet op een gastnetwerk; gastnetwerken laten apparaten elkaar vaak niet zien.
+4. **Juiste adres.** De server toont bij het starten het adres plus eventuele alternatieven; het beamerscherm ook. Werkt het eerste adres niet, probeer de andere. Het eigen adres vastzetten kan met `PUBLIC_URL=http://192.168.1.20:3000 npm start`.
+5. **VPN.** Een actieve VPN op de laptop kan verkeer vanaf het lokale netwerk blokkeren. Zet hem tijdens de quiz uit.
+
+Snelle test: open op de laptop zelf het adres `http://<ip>:3000`. Werkt dat wel en op de telefoon niet, dan ligt het aan firewall of netwerk.
+
 ## Opslag
 
 - Quizzen: `data/quizzes/*.json`, uploads: `data/uploads/`. Andere map via `PUBQUIZ_DATA=/pad`.

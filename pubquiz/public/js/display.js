@@ -3,7 +3,9 @@
 /* global el, letterBadge, timerNode, scoreboardNode, formatPoints, typeHint, clock, api */
 
 // Renders the big-screen view (used by the beamer page and the host stage).
+// On localhost the phones need the laptop's network address instead.
 let joinBase = location.origin;
+let joinAlternatives = [];
 (async function resolveJoinBase() {
 	if (!/^(localhost|127\.|\[::1\])/.test(location.hostname)) {
 		return;
@@ -12,12 +14,20 @@ let joinBase = location.origin;
 		const info = await api('GET', '/api/info');
 		if (info.lanUrls && info.lanUrls.length) {
 			joinBase = info.lanUrls[0];
+			joinAlternatives = info.lanUrls.slice(1, 4);
 			document.querySelectorAll('[data-join-url]').forEach((n) => { n.textContent = joinBase + '/play.html'; });
+			document.querySelectorAll('[data-join-alt]').forEach((n) => n.replaceWith(joinAltNode()));
 		}
 	} catch (e) {
 		/* keep location.origin */
 	}
 })();
+
+function joinAltNode() {
+	return el('div', { class: 'join-alt muted', 'data-join-alt': '' }, joinAlternatives.length
+		? 'Werkt dat niet? Probeer ' + joinAlternatives.map((u) => u + '/play.html').join(' of ')
+		: null);
+}
 
 function renderDisplay(container, view) {
 	clock.sync(view.serverNow);
@@ -44,6 +54,7 @@ function lobby(view) {
 		el('h1', null, view.title),
 		el('div', null, 'Doe mee op je telefoon via'),
 		el('div', { class: 'join-url', 'data-join-url': '' }, joinBase + '/play.html'),
+		joinAltNode(),
 		el('div', { style: { marginTop: '.6em' } }, 'met code'),
 		el('div', { class: 'big-code' }, view.code),
 		el('div', { class: 'muted' }, view.teams.length

@@ -251,17 +251,47 @@ function createServer(options) {
 	return server;
 }
 
+// Addresses phones on the same network can use, best guess first.
+// Virtual adapters (VPN, Docker, WSL, VirtualBox) sort last: phones cannot reach them.
+const VIRTUAL_IF = /docker|vethernet|wsl|hyper-?v|virtualbox|vbox|vmnet|vmware|utun|tun|tap|zerotier|tailscale|wireguard|^wg|^br-|^veth|virbr|bridge|awdl|llw/i;
+const PREFERRED_IF = /wi-?fi|wlan|wlp|wireless|^en\d|^eth|ethernet|^enp|^eno/i;
+
+function rankAddress(name, address) {
+	let score = 0;
+	if (VIRTUAL_IF.test(name)) {
+		score -= 100;
+	}
+	if (PREFERRED_IF.test(name)) {
+		score += 10;
+	}
+	if (/^192\.168\./.test(address)) {
+		score += 5;
+	} else if (/^10\./.test(address)) {
+		score += 3;
+	} else if (/^172\.(1[6-9]|2\d|3[01])\./.test(address)) {
+		score += 1;
+	}
+	if (/^169\.254\./.test(address)) {
+		score -= 200;
+	}
+	return score;
+}
+
 function lanUrls(port) {
+	if (process.env.PUBLIC_URL) {
+		return [process.env.PUBLIC_URL.replace(/\/+$/, '')];
+	}
 	const os = require('os');
-	const urls = [];
-	for (const list of Object.values(os.networkInterfaces())) {
+	const found = [];
+	for (const [name, list] of Object.entries(os.networkInterfaces())) {
 		for (const addr of list || []) {
 			if (addr.family === 'IPv4' && !addr.internal) {
-				urls.push('http://' + addr.address + ':' + port);
+				found.push({ url: 'http://' + addr.address + ':' + port, score: rankAddress(name, addr.address) });
 			}
 		}
 	}
-	return urls;
+	found.sort((a, b) => b.score - a.score);
+	return found.map((f) => f.url);
 }
 
 function sendJson(res, status, data) {
@@ -326,10 +356,17 @@ module.exports = { createServer };
 
 if (require.main === module) {
 	const port = Number(process.env.PORT) || 3000;
-	createServer().listen(port, () => {
+	const host = process.env.HOST || '0.0.0.0';
+	createServer().listen(port, host, () => {
+		const urls = lanUrls(port);
 		console.log('Pub quiz draait op http://localhost:' + port);
-		for (const url of lanUrls(port)) {
-			console.log('Teams in hetzelfde netwerk: ' + url + '/play.html');
+		if (urls.length) {
+			console.log('Teams doen mee via: ' + urls[0] + '/play.html');
+			urls.slice(1).forEach((url) => console.log('  of eventueel via: ' + url + '/play.html'));
+		} else {
+			console.log('Geen netwerkadres gevonden. Is deze computer met wifi verbonden?');
 		}
+		console.log('Laadt de pagina niet op de telefoon? Sta Node.js toe in de firewall (poort ' + port + ')');
+		console.log('en controleer dat telefoon en laptop op hetzelfde (niet-gast)netwerk zitten.');
 	});
 }
