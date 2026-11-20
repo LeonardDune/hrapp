@@ -1,0 +1,56 @@
+{
+  "title": "Voorbeeldquiz",
+  "rounds": [
+    {
+      "title": "Algemene kennis",
+      "questions": [
+        {
+          "type": "mc",
+          "text": "Wat is de hoofdstad van Australië?",
+          "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+          "correct": 2,
+          "points": 1,
+          "timeLimit": 30
+        },
+        {
+          "type": "open",
+          "text": "Welk element heeft het scheikundig symbool Fe?",
+          "answer": "IJzer",
+          "alternatives": ["Iron"],
+          "points": 1,
+          "timeLimit": 45
+        },
+        {
+          "type": "estimate",
+          "text": "Hoeveel kilometer is de Afsluitdijk lang?",
+          "answer": 32,
+          "points": 2,
+          "timeLimit": 30
+        }
+      ]
+    },
+    {
+      "title": "Plaatjesronde",
+      "questions": [
+        {
+          "type": "mc",
+          "text": "Van welk land is dit de vlag?",
+          "image": "/img/vlag-voorbeeld.svg",
+          "options": ["Nederland", "Luxemburg", "Frankrijk", "Rusland"],
+          "correct": 0,
+          "points": 1,
+          "timeLimit": 20
+        },
+        {
+          "type": "open",
+          "text": "Hoe heet dit figuur dat in de wiskunde een vlak met drie zijden vormt?",
+          "image": "/img/driehoek-voorbeeld.svg",
+          "answer": "Driehoek",
+          "alternatives": ["Triangel"],
+          "points": 1,
+          "timeLimit": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pub Quiz – scherm</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>html, body, #stage { height: 100%; } body { overflow: hidden; }</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="/js/common.js"></script>
+<script src="/js/display.js"></script>
+<script>
+'use strict';
+(function () {
+	const code = (new URLSearchParams(location.search).get('code') || '').toUpperCase();
+	const stage = document.getElementById('stage');
+	const message = (text) => stage.replaceChildren(el('div', { class: 'display' }, el('div', { class: 'd-main d-center' }, el('h1', null, text))));
+	if (!/^[A-Z]{4}$/.test(code)) {
+		return message('Geen geldige spelcode.');
+	}
+	connect('/api/games/' + code + '/stream?role=screen', '/api/games/' + code,
+		(view) => renderDisplay(stage, view),
+		() => message('Dit spel bestaat niet (meer).'));
+})();
+</script>
+</body>
+</html>

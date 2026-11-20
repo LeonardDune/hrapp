@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pub Quiz – quizmaster</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+	<a class="brand" href="/">Pub Quiz</a>
+	<div style="display:flex;gap:8px;flex-wrap:wrap">
+		<a class="btn small" id="screen-link" target="_blank" rel="noopener">Beamerscherm openen</a>
+		<button class="btn small danger" id="stop-btn" type="button">Spel stoppen</button>
+	</div>
+</header>
+<div class="host-layout">
+	<main class="stage" id="stage"></main>
+	<aside class="host-panel" id="panel"></aside>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/display.js"></script>
+<script src="/js/host.js"></script>
+</body>
+</html>

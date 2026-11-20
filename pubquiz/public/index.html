@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pub Quiz</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="wrap">
+	<header class="home-hero">
+		<h1>Pub Quiz</h1>
+		<p class="muted">Maak een quiz, zet hem op het grote scherm en laat teams antwoorden met hun telefoon.</p>
+	</header>
+	<div class="home-grid">
+		<section class="card">
+			<h2>Meedoen</h2>
+			<p class="muted">Vul de code in die op het scherm staat.</p>
+			<form id="join-form">
+				<label class="field"><span>Spelcode</span>
+					<input id="join-code" class="code-input" type="text" maxlength="4" autocomplete="off" autocapitalize="characters" required>
+				</label>
+				<button class="btn primary block" type="submit">Verder</button>
+			</form>
+		</section>
+		<section class="card">
+			<h2>Quiz hosten</h2>
+			<ul id="quiz-list" class="quiz-list"><li class="muted">Laden…</li></ul>
+			<p class="error" id="host-error"></p>
+		</section>
+		<section class="card">
+			<h2>Quiz maken</h2>
+			<p class="muted">Rondes, meerkeuze, open vragen, schatvragen en afbeeldingen.</p>
+			<a class="btn block" href="/editor.html">Naar de editor</a>
+		</section>
+	</div>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/home.js"></script>
+</body>
+</html>

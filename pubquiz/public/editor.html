@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pub Quiz – editor</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+	<a class="brand" href="/">Pub Quiz</a>
+	<span class="muted">Editor</span>
+</header>
+<div class="wrap editor">
+	<aside class="card">
+		<button class="btn primary block" id="new-btn" type="button">+ Nieuwe quiz</button>
+		<label class="btn block" style="margin-top:8px">Importeer JSON
+			<input type="file" id="import-file" accept="application/json,.json" class="hidden">
+		</label>
+		<h3 style="margin-top:16px;font-size:1em" class="muted">Quizzen</h3>
+		<ul class="quiz-list" id="quiz-list"></ul>
+	</aside>
+	<main id="editor"></main>
+</div>
+<script src="/js/common.js"></script>
+<script src="/js/editor.js"></script>
+</body>
+</html>
